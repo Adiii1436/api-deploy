@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-import uvicorn
+import os
 from load_data import load_data
 from load_model import load_llm
 from process_query import extract_parameters, process_user_input
@@ -13,7 +13,7 @@ app = FastAPI()
 # Load models and data once at startup
 df = load_data()
 gemini_model = load_llm()
-embedder = SentenceTransformer('local_models/all-MiniLM-L6-v2')
+embedder = SentenceTransformer('all-MiniLM-L6-v2', token=os.environ["HUGGINGFACE_TOKEN"])
 
 class QueryRequest(BaseModel):
     text: str
